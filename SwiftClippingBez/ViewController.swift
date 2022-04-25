@@ -74,6 +74,10 @@ class ViewController: UIViewController {
 		testView.path1 = SamplePaths().samplePath(1)
 		testView.path2 = SamplePaths().samplePath(2)
 		
+//		let pth = SamplePaths().samplePath(1)
+//		pth.apply(CGAffineTransform(translationX: 0.0, y: 340.0))
+//		testView.path1 = pth
+		
 		// get started
 		nextStep()
 
@@ -141,8 +145,8 @@ class TestView: UIView {
 		ctx?.saveGState()
 		ctx?.concatenate(transform)
 
-		path1.lineWidth = 4
-		path2.lineWidth = 4
+		path1.lineWidth = 14
+		path2.lineWidth = 14
 
 		switch show {
 		case .first:
@@ -153,22 +157,48 @@ class TestView: UIView {
 			UIColor.blue.setStroke()
 			path2.stroke()
 			
+//		case .clippedPath:
+//			// get the unique shapes from slicing path2 with path1
+//			guard let shapes: [DKUIBezierPathShape] = path2.uniqueShapesCreatedFromSlicing(withUnclosedPath: path1) else { return }
+//			// get the first shape
+//			guard let shape: DKUIBezierPathShape = shapes.first else { return }
+//			// get the first segment
+//			guard let seg = shape.segments.firstObject as? DKUIBezierPathClippedSegment else { return }
+//			// get the path from that segment
+//			let pth: UIBezierPath = seg.pathSegment
+//			// stroke that segment's path
+//			UIColor.red.setStroke()
+//			pth.stroke()
+//
+//			// print the segment's path to the debug console
+//			print(pth)
+
 		case .clippedPath:
 			// get the unique shapes from slicing path2 with path1
 			guard let shapes: [DKUIBezierPathShape] = path2.uniqueShapesCreatedFromSlicing(withUnclosedPath: path1) else { return }
-			// get the first shape
-			guard let shape: DKUIBezierPathShape = shapes.first else { return }
-			// get the first segment
-			guard let seg = shape.segments.firstObject as? DKUIBezierPathClippedSegment else { return }
-			// get the path from that segment
-			let pth: UIBezierPath = seg.pathSegment
-			// stroke that segment's path
+			
 			UIColor.red.setStroke()
-			pth.stroke()
+
+			shapes.forEach { shape in
+				if let seg = shape.segments.firstObject as? DKUIBezierPathClippedSegment {
+					let pth: UIBezierPath = seg.pathSegment
+					// stroke that segment's path
+					pth.stroke()
+				}
+			}
 			
-			// print the segment's path to the debug console
-			print(pth)
-			
+//			// get the first shape
+//			guard let shape: DKUIBezierPathShape = shapes.first else { return }
+//			// get the first segment
+//			guard let seg = shape.segments.firstObject as? DKUIBezierPathClippedSegment else { return }
+//			// get the path from that segment
+//			let pth: UIBezierPath = seg.pathSegment
+//			// stroke that segment's path
+//			pth.stroke()
+//
+//			// print the segment's path to the debug console
+//			print(pth)
+
 		default:
 			UIColor.systemGreen.setStroke()
 			path1.stroke()
