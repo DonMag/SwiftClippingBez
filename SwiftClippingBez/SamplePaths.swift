@@ -73,9 +73,11 @@ class SamplePaths: NSObject {
 			c1 = CGPoint(x: vals[i + 2], y: vals[i + 3])
 			c2 = CGPoint(x: vals[i + 4], y: vals[i + 5])
 			bez.addCurve(to: pt, controlPoint1: c1, controlPoint2: c2)
+			
+			print("@\(Int(pt.x)), @\(Int(pt.y)), @\(Int(c1.x)), @\(Int(c1.y)), @\(Int(c2.x)), @\(Int(c2.y)), ")
 		}
-		
-		bez.close()
+		print()
+		//bez.close()
 		
 		return bez
 	}

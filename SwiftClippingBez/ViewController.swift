@@ -74,10 +74,14 @@ class ViewController: UIViewController {
 		testView.path1 = SamplePaths().samplePath(1)
 		testView.path2 = SamplePaths().samplePath(2)
 		
-//		let pth = SamplePaths().samplePath(1)
+		var pth = SamplePaths().samplePath(1)
 //		pth.apply(CGAffineTransform(translationX: 0.0, y: 340.0))
-//		testView.path1 = pth
-		
+		testView.path1 = pth
+
+		pth = SamplePaths().samplePath(2)
+		pth.close()
+		testView.path2 = pth
+
 		// get started
 		nextStep()
 
@@ -174,8 +178,18 @@ class TestView: UIView {
 //			print(pth)
 
 		case .clippedPath:
+			UIColor.systemGreen.setStroke()
+			path1.stroke()
+			UIColor.blue.setStroke()
+			path2.stroke()
+
+			let pth1 = path2
+			let pth2 = path1
+			//pth1.close()
+			pth2.close()
+			
 			// get the unique shapes from slicing path2 with path1
-			guard let shapes: [DKUIBezierPathShape] = path2.uniqueShapesCreatedFromSlicing(withUnclosedPath: path1) else { return }
+			guard let shapes: [DKUIBezierPathShape] = pth2.uniqueShapesCreatedFromSlicing(withUnclosedPath: pth1) else { return }
 			
 			UIColor.red.setStroke()
 
